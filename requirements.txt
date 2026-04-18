@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+slowapi
+python-jose[cryptography]
+python-dotenv
