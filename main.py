@@ -44,7 +44,7 @@ class ActivateRequest(BaseModel):
     mac: str
 
 @app.post("/activate")
-@limiter.limit("5/minute")          # brute-force protection
+@limiter.limit("5/minute")
 async def activate(req: Request, body: ActivateRequest):
     token_hash = hashlib.sha256(body.token.encode()).hexdigest()
     mac = body.mac.upper().replace(":", "").replace("-", "")
@@ -68,7 +68,6 @@ async def activate(req: Request, body: ActivateRequest):
             )
             db.commit()
 
-    # Issue JWT valid 30 days, locked to this MAC
     payload = {
         "mac": mac,
         "exp": datetime.utcnow() + timedelta(days=30)
